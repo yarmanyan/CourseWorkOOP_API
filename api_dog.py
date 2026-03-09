@@ -223,7 +223,7 @@ def save_to_json_file(file_info, filename='downloaded_images.json'):
 
 def main():
     print("=" * 60)
-    print("      Программа для получения случайных картинок по породе собак")
+    print("Программа для получения случайных картинок по породе собак")
     print("=" * 60)
     print("Примеры пород: hound, beagle, husky, labrador, poodle и др.")
     print("-" * 60)
