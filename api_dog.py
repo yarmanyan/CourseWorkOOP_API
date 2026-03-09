@@ -19,6 +19,9 @@ class YDConnector:
         }
 
     def create_folder(self, breed):
+        """
+        Создание директории на Яндекс.Диске.
+        """
         params = {
             'path': f'dogs/{breed}'
         }
@@ -26,7 +29,7 @@ class YDConnector:
         response = requests.put(f'{YDConnector.__yd_base}/v1/disk/resources',
                                 headers=self.__headers,
                                 params=params)
-        # Добавим проверку ответа
+
         if response.status_code == 201:
             print(f"Папка dogs/{breed} создана на Яндекс.Диске")
         elif response.status_code == 409: # Пропускаем ошибку повторного создания
@@ -35,6 +38,9 @@ class YDConnector:
             print(f"Ошибка создания папки: {response.status_code} - {response.text}")
 
     def delete_folder(self, breed):
+        """
+        Удаление директории на Яндекс.Диске.
+        """
         params = {
             'path': f'dogs/{breed}'
         }
@@ -48,11 +54,13 @@ class YDConnector:
             print(f"Ошибка удаления папки: {response.status_code} - {response.text}")
 
     def image_upload(self, image_url, file_name, breed):
+        """
+        Загрузка картинки по url Яндекс.Диск.
+        """
         params = {
             'url': f'{image_url}',
             'path': f'dogs/{breed}/{file_name}'
         }
-        # Загрузка картинки по url
         response = requests.post(f'{YDConnector.__yd_base}/v1/disk/resources/upload',
                                  headers=self.__headers,
                                  params=params)
@@ -64,24 +72,20 @@ class YDConnector:
 
     def image_info(self, file_name, breed):
         """
-        Получает метаданные загруженного файла с Яндекс.Диска.
-
+        Получение метаданных загруженного файла с Яндекс.Диска.
         """
 
         # Небольшая пауза, чтобы Яндекс.Диск успел обработать загрузку
         print("Получаем информацию о файле...")
         time.sleep(2)
 
-        # Формируем параметры запроса
         params = {
             'path': f'dogs/{breed}/{file_name}'
         }
 
-        # Отправляем GET-запрос к API Яндекс.Диска для получения метаданных
         response = requests.get(f'{YDConnector.__yd_base}/v1/disk/resources',
                                 headers=self.__headers,
                                 params=params)
-
         # Проверяем статус ответа
         if response.status_code == 200:
             data = response.json()
@@ -101,10 +105,12 @@ class YDConnector:
 
 
 def folder(image_url, file_name, breed):
+    """
+    Управляющая функция работы с экземпляром класса YDConnector
+    """
     nfolder = YDConnector(yd_token)
     nfolder.create_folder(breed)
     nfolder.image_upload(image_url, file_name, breed)
-    # Добавил запрос метданных по картинке
     nfolder.image_info(file_name, breed)
 
 
