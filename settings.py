@@ -1,2 +1,2 @@
 
-yd_token = 'ваш токен яндекс диска'
+yd_token = 'y0__xCT5NwRGNuWAyDL643VFhxs80G0dMIJjvk1l7vapK0XSaw4'
